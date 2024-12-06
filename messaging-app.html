@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Chatting </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .message-area {
+            width: 400px;
+            height: 600px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .chat-header {
+            padding: 10px;
+            background-color: #07445e;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin: 10px 0;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .message.right {
+            justify-content: flex-end;
+        }
+
+        .message .bubble {
+            max-width: 60%;
+            padding: 10px;
+            color: rgb(255, 255, 255);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .message.right .bubble {
+            background-color: #07445e;
+            margin-left: 10px;
+        }
+
+        .message.left .bubble {
+            background-color: #07445e;
+            margin-right: 10px;
+        }
+
+        .message .timestamp {
+            font-size: 10px;
+            margin-top: 5px;
+            text-align: right;
+            color: rgb(255, 255, 255);
+        }
+
+        .message .kisi {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #07445e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            margin: auto;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+        }
+
+        p {
+            margin-right: 5px;
+            font-size: 14px;
+            color: white;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #07445e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="chat-input">
+        <img src="OIP (5).jpg" alt="">
+        <input type="text" id="messageInputB" placeholder="Type a message...">
+        <button onclick="sendMessage('left')"> Reply </button>
+    </div>
+
+    <div class="message-area">
+        <div class="chat-header"> Chat </div>
+        <div class="chat-messages" id="chatMessages"></div>
+    </div>
+    <div class="chat-input">
+        <img src="OIP.jpg" alt="">
+        <input type="text" id="messageInputA" placeholder="Type a message...">
+        <button onclick="sendMessage('right')"> Send </button>
+    </div>
+
+    <script>
+        function sendMessage(side) {
+            const input = side === 'right' ? document.getElementById('messageInputA') : document.getElementById('messageInputB');
+            const messageText = input.value;
+            if (!messageText.trim()) return;
+
+            const message = document.createElement('div');
+            message.className = `message ${side}`;
+
+            const kisi = document.createElement('div');
+            kisi.className = 'kisi';
+            kisi.textContent = side === 'right' ? 'A' : 'B';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.textContent = messageText;
+
+            const timestamp = document.createElement('div');
+            timestamp.className = 'timestamp';
+            timestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            bubble.appendChild(timestamp);
+
+            message.appendChild(side === 'right' ? bubble : kisi);
+            message.appendChild(side === 'right' ? kisi : bubble);
+
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            input.value = '';
+        }
+    </script>
+</body>
+
+</html>
